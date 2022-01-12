@@ -1,4 +1,6 @@
 ﻿using MemeIt.Data.Serices;
+using MemeIt.Data.Services;
+using MemeIt.Models.Entities;
 
 namespace MemeIt.Data;
 
@@ -9,10 +11,40 @@ public static class DbInitializer
         context.Database.EnsureCreated();
 
         // Look for any Entity.
-        //    if (context.entity.Any())
-        //    {
-        //        return; // DB has been seeded
-        //    }
+        if (context.Users.Any())
+        {
+            return; // DB has been seeded
+        }
+
+        var user = new User()
+        {
+            Name = "Bob Marley",
+            Username = "OG",
+            HashedPassword = service.HashPassword("asd"),
+            DateOfBirth = DateTime.Parse("2.6.1945"),
+            Email = "i@mbobmarley.com",
+            CreatedOn = DateTime.Now.ToUniversalTime(),
+            LastModified = DateTime.Now.ToUniversalTime(),
+            DeletedOn = DateTime.MinValue
+        };
+        context.Users.Add(user);
+
+        var roles = new Role[]
+        {
+            new Role()
+            {
+                Title = "baseUser",
+                CreatedOn = DateTime.Now.ToUniversalTime(),
+                LastModified = DateTime.Now.ToUniversalTime(),
+                DeletedOn = DateTime.MinValue
+            }
+        };
+        foreach (var role in roles)
+        {
+            context.Roles.Add(role);
+        }
+
+        context.SaveChanges();
     }
 
     public static void CreateDbIfNotExists(IHost host)
