@@ -1,6 +1,6 @@
 ### Tech stack:
 
-- .Net 5
+- .Net 6
 - Entity Framework
 - JWT authentication
 - React
