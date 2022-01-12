@@ -2,7 +2,7 @@
 
 namespace MemeIt.Models.Entities;
 
-public class Meme:EntityWithModificationDate
+public class Meme : EntityWithModificationDate
 {
     public string Title { get; set; } = null!;
     public string Tag { get; set; } = null!;

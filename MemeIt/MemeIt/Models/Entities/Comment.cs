@@ -2,7 +2,7 @@
 
 namespace MemeIt.Models.Entities;
 
-public class Comment:EntityWithModificationDate
+public class Comment : EntityWithModificationDate
 {
     public string Note { get; set; } = null!;
     public string Tag { get; set; } = null!;
