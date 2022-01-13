@@ -6,8 +6,8 @@ public interface ICommentRepository
 {
     Task<List<Comment>?> GetUsersCommentsAsync(long userId);
     Task<List<Comment>?> GetMemesCommentsAsync(long memeId);
-    Task AddCommentAsync(CommentDto commentDto);
-    Task EditCommentAsync(CommentDto commentDto);
+    Task AddCommentAsync(Comment comment);
+    Task EditCommentAsync(string newMessage,long commentId);
     Task DeleteCommentAsync(long commentId);
 
 }
