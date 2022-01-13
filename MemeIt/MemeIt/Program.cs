@@ -1,5 +1,7 @@
 using System.Text;
 using MemeIt.Data;
+using MemeIt.Data.Repositories;
+using MemeIt.Data.Repositories.Interfaces;
 using MemeIt.Data.Serices;
 using MemeIt.Data.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -47,6 +49,10 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 builder.Services.AddDbContext<AppDbContext>();
 
+builder.Services.AddScoped<IAuthService,AuthService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IMemeRepository, MemeRepository>();
+builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 // todo Repositorys/Services
 
 builder.Services.AddSingleton<IAuthService>(
