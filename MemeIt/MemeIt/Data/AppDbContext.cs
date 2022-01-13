@@ -9,10 +9,6 @@ public class AppDbContext : DbContext
     {
     }
 
-    public AppDbContext()
-    {
-    }
-
     public DbSet<User> Users { get; set; } = default!;
     public DbSet<Comment> Comments { get; set; } = default!;
     public DbSet<Meme> Memes { get; set; } = default!;
