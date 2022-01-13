@@ -53,7 +53,6 @@ builder.Services.AddScoped<IAuthService,AuthService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IMemeRepository, MemeRepository>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
-// todo Repositorys/Services
 
 builder.Services.AddSingleton<IAuthService>(
     new AuthService(
