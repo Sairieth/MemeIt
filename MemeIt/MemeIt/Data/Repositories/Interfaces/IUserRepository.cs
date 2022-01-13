@@ -1,17 +1,18 @@
-﻿using MemeIt.Models.Entities;
+﻿using MemeIt.Models.DTOs;
+using MemeIt.Models.Entities;
 
 namespace MemeIt.Data.Repositories.Interfaces;
 
 public interface IUserRepository
 {
-    Task<User?> GetUserDetails(long userId);
-    Task AddUser(UserDto userData);
-    Task DeleteUser(long userId);
-    Task<bool> IsUsernameValid(string email);
-    Task<bool> IsPasswordValid(string password);
-    Task<bool> IsEmailValid(string email);
-    Task EditPassword(long userId, string newPassword);
-    Task EditEmail(long userId, string email);
+    Task<User?> GetUserDetailsAsync(long userId);
+    Task AddUserAsync(User user);
+    Task DeleteUserAsync(long userId);
+    Task<bool> IsUsernameUniqueAsync(string username);
+    Task<bool> IsPasswordValidAsync(string password);
+    Task<bool> IsEmailUniqueAsync(string email);
+    Task EditPasswordAsync(long userId, string newPassword);
+    Task EditEmailAsync(long userId, string email);
 
 
 }

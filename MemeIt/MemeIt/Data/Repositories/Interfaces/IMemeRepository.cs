@@ -4,11 +4,11 @@ namespace MemeIt.Data.Repositories.Interfaces;
 
 public interface IMemeRepository
 {
-    Task<List<Meme>?> GetUsersMemes(long userId);
-    Task<List<Meme>?> GetMemesByTag(string tag);
+    Task<List<Meme>?> GetUsersMemesAsync(long userId);
+    Task<List<Meme>?> GetMemesByTagAsync(string tag);
     //Task<Meme> GetMemeWithComments(long memeId);
-    Task AddMeme(MemeDto memeDto);
-    Task RemoveMeme(long memeId);
-    Task EditMeme();
+    Task AddMemeAsync(MemeDto memeDto);
+    Task RemoveMemeAsync(long memeId);
+    Task EditMemeAsync();
 
 }
