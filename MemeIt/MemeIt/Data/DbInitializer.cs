@@ -18,9 +18,8 @@ public static class DbInitializer
 
         var user = new User()
         {
-            Name = "Bob Marley",
             Username = "OG",
-            HashedPassword = service.HashPassword("asd"),
+            HashedPassword = service.HashPassword("Bob"),
             DateOfBirth = DateTime.Parse("2.6.1945"),
             Email = "i@mbobmarley.com",
             CreatedOn = DateTime.Now.ToUniversalTime(),
