@@ -4,7 +4,6 @@ namespace MemeIt.Models.Entities;
 
 public class User : EntityWithModificationDate
 {
-    public string Name { get; set; } = null!;
     public string Username { get; set; } = null!;
     public string HashedPassword { get; set; } = null!;
     public DateTime DateOfBirth { get; set; }
