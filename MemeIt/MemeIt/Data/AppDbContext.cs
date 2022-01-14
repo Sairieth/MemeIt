@@ -13,6 +13,8 @@ public class AppDbContext : DbContext
     public DbSet<Comment> Comments { get; set; } = default!;
     public DbSet<Meme> Memes { get; set; } = default!;
     public DbSet<Role> Roles { get; set; } = default!;
+    public DbSet<Tag> Tags { get; set; } = default!;
+
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -21,6 +23,7 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Comment>().ToTable("Comment");
         modelBuilder.Entity<Meme>().ToTable("Meme");
         modelBuilder.Entity<Role>().ToTable("Role");
+        modelBuilder.Entity<Tag>().ToTable("Tag");
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
