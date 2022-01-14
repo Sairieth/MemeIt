@@ -2,6 +2,7 @@
 
 - .Net 6
 - Entity Framework
+- Serilog
 - JWT authentication
 - React
 - Bootstrap
