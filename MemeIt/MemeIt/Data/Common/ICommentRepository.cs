@@ -1,6 +1,6 @@
 ﻿using MemeIt.Models.Entities;
 
-namespace MemeIt.Data.Repositories.Interfaces;
+namespace MemeIt.Data.Common;
 
 public interface ICommentRepository
 {

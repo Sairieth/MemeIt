@@ -1,4 +1,4 @@
-﻿using MemeIt.Data.Serices;
+﻿using MemeIt.Data.Common;
 using MemeIt.Data.Services;
 using MemeIt.Models.Entities;
 

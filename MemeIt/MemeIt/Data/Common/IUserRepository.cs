@@ -1,7 +1,6 @@
-﻿using MemeIt.Models.DTOs;
-using MemeIt.Models.Entities;
+﻿using MemeIt.Models.Entities;
 
-namespace MemeIt.Data.Repositories.Interfaces;
+namespace MemeIt.Data.Common;
 
 public interface IUserRepository
 {

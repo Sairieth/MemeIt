@@ -1,4 +1,4 @@
-﻿using MemeIt.Data.Repositories.Interfaces;
+﻿using MemeIt.Data.Common;
 using MemeIt.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 

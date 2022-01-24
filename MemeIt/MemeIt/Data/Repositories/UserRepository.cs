@@ -1,4 +1,4 @@
-﻿using MemeIt.Data.Repositories.Interfaces;
+﻿using MemeIt.Data.Common;
 using MemeIt.Data.Services;
 using MemeIt.Models.DTOs;
 using MemeIt.Models.Entities;
