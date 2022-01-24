@@ -1,15 +1,26 @@
 using System.Text;
 using MemeIt.Data;
+using MemeIt.Data.Common;
 using MemeIt.Data.Repositories;
-using MemeIt.Data.Repositories.Interfaces;
-using MemeIt.Data.Serices;
 using MemeIt.Data.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Logging.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var configuration = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json")
+    .Build();
+
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(configuration)
+    .CreateLogger();
+
+builder.Host.UseSerilog();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -28,7 +39,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 
-// todo set CORS policy
+// todo set CORS policy based on template if necessary.
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(
@@ -87,6 +98,8 @@ else
 
 app.UseHttpsRedirection();
 
+app.UseSerilogRequestLogging();
+
 app.UseRouting();
 
 app.UseCors();
@@ -97,4 +110,17 @@ app.UseAuthorization();
 
 app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
-app.Run();
+try
+{
+    Log.Information("Application Starting Up");
+    app.Run();
+}
+catch (Exception ex)
+{
+
+    Log.Fatal(ex, "The Application Threw A Nope Card");
+}
+finally
+{
+    Log.CloseAndFlush();
+}
