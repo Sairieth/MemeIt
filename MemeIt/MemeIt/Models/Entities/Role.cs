@@ -2,7 +2,7 @@
 
 namespace MemeIt.Models.Entities;
 
-public class Role : Entity
+public class Role : EntityWithModificationDate
 {
     public string? Title { get; set; }
 }
