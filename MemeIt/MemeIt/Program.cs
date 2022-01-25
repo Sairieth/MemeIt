@@ -1,6 +1,6 @@
 using System.Text;
+using MemeIt.Core;
 using MemeIt.Data;
-using MemeIt.Data.Common;
 using MemeIt.Data.Repositories;
 using MemeIt.Data.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -60,10 +60,14 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 builder.Services.AddDbContext<AppDbContext>();
 
-builder.Services.AddScoped<IAuthService,AuthService>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IMemeRepository, MemeRepository>();
-builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+builder.Services
+    .AddControllers()
+    .AddNewtonsoftJson(options =>
+    {
+        options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+        options.SerializerSettings.Converters.Add(new StringEnumConverter());
+    });
+
 
 builder.Services.AddSingleton<IAuthService>(
     new AuthService(
@@ -72,14 +76,11 @@ builder.Services.AddSingleton<IAuthService>(
     )
 );
 
+builder.Services.AddScoped<IUserRepository, LoggedUserRepository>();
+builder.Services.AddScoped<IMemeRepository, LoggedMemeRepository>();
+builder.Services.AddScoped<ICommentRepository, LoggedCommentRepository>();
+builder.Services.AddScoped<ITagRepository, LoggedTagRepository>();
 
-builder.Services
-    .AddControllers()
-    .AddNewtonsoftJson(options =>
-    {
-        options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-        options.SerializerSettings.Converters.Add(new StringEnumConverter());
-    });
 
 var app = builder.Build();
 

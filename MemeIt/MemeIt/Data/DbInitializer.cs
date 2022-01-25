@@ -1,4 +1,4 @@
-﻿using MemeIt.Data.Common;
+﻿using MemeIt.Core;
 using MemeIt.Data.Services;
 using MemeIt.Models.Entities;
 
@@ -16,18 +16,6 @@ public static class DbInitializer
             return; // DB has been seeded
         }
 
-        var user = new User()
-        {
-            Username = "OG",
-            HashedPassword = service.HashPassword("Bob"),
-            DateOfBirth = DateTime.Parse("2.6.1945"),
-            Email = "i@mbobmarley.com",
-            CreatedOn = DateTime.Now.ToUniversalTime(),
-            LastModified = DateTime.Now.ToUniversalTime(),
-            DeletedOn = DateTime.MinValue
-        };
-        context.Users.Add(user);
-
         var roles = new Role[]
         {
             new Role()
@@ -43,6 +31,20 @@ public static class DbInitializer
             context.Roles.Add(role);
         }
 
+        context.SaveChanges();
+
+        var user = new User()
+        {
+            Username = "OG",
+            HashedPassword = service.HashPassword("Bob"),
+            DateOfBirth = DateTime.Parse("2.6.1945"),
+            Email = "i@mbobmarley.com",
+            Roles = new List<Role>(){roles.First() },
+            CreatedOn = DateTime.Now.ToUniversalTime(),
+            LastModified = DateTime.Now.ToUniversalTime(),
+            DeletedOn = DateTime.MinValue
+        };
+        context.Users.Add(user);
         context.SaveChanges();
     }
 
