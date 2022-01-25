@@ -1,4 +1,5 @@
-﻿using MemeIt.Models.Entities;
+﻿using System.Runtime.CompilerServices;
+using MemeIt.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace MemeIt.Data;
@@ -16,11 +17,22 @@ public class AppDbContext : DbContext
     public DbSet<Tag> Tags { get; set; } = default!;
 
 
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<User>().ToTable("User");
-        modelBuilder.Entity<Comment>().ToTable("Comment");
+        modelBuilder.Entity<Comment>(prop =>
+        {
+            prop.HasOne(n => n.Meme)
+                .WithMany(x => x.Comments)
+                .HasForeignKey(f=>f.Id)
+                .OnDelete(deleteBehavior: DeleteBehavior.NoAction);
+            prop.HasOne(n => n.User)
+                .WithMany(x => x.Comments)
+                .HasForeignKey(f => f.Id)
+                .OnDelete(deleteBehavior: DeleteBehavior.NoAction);
+            prop.ToTable("Comment");
+        });
+
         modelBuilder.Entity<Meme>().ToTable("Meme");
         modelBuilder.Entity<Role>().ToTable("Role");
         modelBuilder.Entity<Tag>().ToTable("Tag");
