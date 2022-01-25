@@ -1,12 +1,12 @@
 ﻿using MemeIt.Models.Entities;
 
-namespace MemeIt.Data.Common;
+namespace MemeIt.Core;
 
 public interface IUserRepository
 {
     Task<User?> GetUserDetailsAsync(long userId);
     Task AddUserAsync(User user);
-    Task DeleteUserAsync(long userId);
+    Task RemoveUserAsync(long userId);
     Task<bool> IsUsernameUniqueAsync(string username);
     Task<bool> IsPasswordValidAsync(string password);
     Task<bool> IsEmailUniqueAsync(string email);

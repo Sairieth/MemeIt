@@ -1,6 +1,6 @@
 ﻿using MemeIt.Models.DTOs;
 
-namespace MemeIt.Data.Common;
+namespace MemeIt.Core;
 
 public interface IAuthService
 {

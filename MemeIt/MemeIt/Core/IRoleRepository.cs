@@ -1,6 +1,6 @@
 ﻿using MemeIt.Models.Entities;
 
-namespace MemeIt.Data.Common;
+namespace MemeIt.Core;
 
 public interface IRoleRepository
 {
