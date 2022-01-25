@@ -13,23 +13,23 @@ public class CommentRepository:ICommentRepository
         _db = db;
     }
 
-    public async Task<List<Comment>?> GetUsersCommentsAsync(long userId)
+    public virtual async Task<List<Comment>?> GetUsersCommentsAsync(long userId)
     {
         return await _db.Comments.Where(c => c.User.Id.Equals(userId)).ToListAsync();
     }
 
-    public async Task<List<Comment>?> GetMemesCommentsAsync(long memeId)
+    public virtual async Task<List<Comment>?> GetMemesCommentsAsync(long memeId)
     {
         return await _db.Comments.Where(c => c.Meme.Id.Equals(memeId)).ToListAsync();
     }
 
-    public async Task AddCommentAsync(Comment comment)
+    public virtual async Task AddCommentAsync(Comment comment)
     {
         await _db.Comments.AddAsync(comment);
         await _db.SaveChangesAsync();
     }
 
-    public async Task EditCommentAsync(string newMessage,long commentId)
+    public virtual async Task EditCommentAsync(string newMessage,long commentId)
     {
         var comment = await _db.Comments.SingleAsync(u => u.Id.Equals(commentId));
 
@@ -40,7 +40,7 @@ public class CommentRepository:ICommentRepository
         await _db.SaveChangesAsync();
     }
 
-    public async Task DeleteCommentAsync(long commentId)
+    public virtual async Task DeleteCommentAsync(long commentId)
     {
         var comment = await _db.Comments.SingleAsync(u => u.Id.Equals(commentId));
 

@@ -1,4 +1,4 @@
-﻿using MemeIt.Data.Common;
+﻿using MemeIt.Core;
 using MemeIt.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,30 +13,30 @@ public class MemeRepository:IMemeRepository
         _db = db;
     }
 
-    public async Task<List<Meme>?> GetUsersMemesAsync(long userId)
+    public virtual async Task<List<Meme>?> GetUsersMemesAsync(long userId)
     {
         return await _db.Memes.Where(m=>m.UserId.Equals(userId)).ToListAsync();
     }
 
-    public async Task<List<Meme>?> GetMemesByTagAsync(string tag)
+    public virtual async Task<List<Meme>?> GetMemesByTagAsync(string tag)
     {
         return await _db.Memes.Where(m => m.Tag.Equals(tag)).ToListAsync();
     }
 
-    public async Task AddMemeAsync(Meme meme)
+    public virtual async Task AddMemeAsync(Meme meme)
     {
         await _db.Memes.AddAsync(meme);
         await _db.SaveChangesAsync();
     }
 
-    public async Task RemoveMemeAsync(long memeId)
+    public virtual async Task RemoveMemeAsync(long memeId)
     {
         var meme = await _db.Memes.SingleAsync(u => u.Id.Equals(memeId));
         _db.Memes.Remove(meme);
         await _db.SaveChangesAsync();
     }
 
-    public async Task EditMemeTitleAsync(string newTitle,long memeId)
+    public virtual async Task EditMemeTitleAsync(string newTitle,long memeId)
     {
         var meme = await _db.Memes.SingleAsync(u => u.Id.Equals(memeId));
 
@@ -47,7 +47,7 @@ public class MemeRepository:IMemeRepository
         await _db.SaveChangesAsync();
     }
 
-    public async Task EditMemeTagAsync(string newTag, long memeId)
+    public virtual async Task EditMemeTagAsync(string newTag, long memeId)
     {
         var meme = await _db.Memes.SingleAsync(u => u.Id.Equals(memeId));
 

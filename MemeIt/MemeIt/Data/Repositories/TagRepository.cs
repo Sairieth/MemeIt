@@ -1,4 +1,4 @@
-﻿using MemeIt.Data.Common;
+﻿using MemeIt.Core;
 using MemeIt.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,7 +13,7 @@ public class TagRepository:ITagRepository
         _db = db;
     }
 
-    public async Task<List<Tag>> GetAllTagsAsync()
+    public virtual async Task<List<Tag>> GetAllTagsAsync()
     {
         return await _db.Tags.ToListAsync();
     }
