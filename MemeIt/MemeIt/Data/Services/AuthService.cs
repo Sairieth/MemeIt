@@ -2,7 +2,7 @@
 using System.Security.Claims;
 using System.Text;
 using CryptoHelper;
-using MemeIt.Data.Common;
+using MemeIt.Core;
 using MemeIt.Models.DTOs;
 using Microsoft.IdentityModel.Tokens;
 
