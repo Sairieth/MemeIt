@@ -1,4 +1,4 @@
-﻿using MemeIt.Data.Common;
+﻿using MemeIt.Core;
 using MemeIt.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,12 +15,12 @@ public class CommentRepository:ICommentRepository
 
     public async Task<List<Comment>?> GetUsersCommentsAsync(long userId)
     {
-        return await _db.Comments.Where(c => c.UserId.Equals(userId)).ToListAsync();
+        return await _db.Comments.Where(c => c.User.Id.Equals(userId)).ToListAsync();
     }
 
     public async Task<List<Comment>?> GetMemesCommentsAsync(long memeId)
     {
-        return await _db.Comments.Where(c => c.MemeId.Equals(memeId)).ToListAsync();
+        return await _db.Comments.Where(c => c.Meme.Id.Equals(memeId)).ToListAsync();
     }
 
     public async Task AddCommentAsync(Comment comment)
