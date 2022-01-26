@@ -6,7 +6,7 @@ namespace MemeIt.Data.Repositories;
 public class LoggedTagRepository : TagRepository
 {
     private readonly ILogger<LoggedTagRepository> _logger;
-    public LoggedTagRepository(ILogger<LoggedTagRepository> logger, ITagRepository tagRepository, AppDbContext db) :
+    public LoggedTagRepository(ILogger<LoggedTagRepository> logger, AppDbContext db) :
         base(db)
     {
         _logger = logger;

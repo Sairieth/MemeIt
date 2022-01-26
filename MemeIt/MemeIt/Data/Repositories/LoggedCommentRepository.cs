@@ -8,7 +8,7 @@ public class LoggedCommentRepository:CommentRepository
 {
     private readonly ILogger<LoggedCommentRepository> _logger;
 
-    public LoggedCommentRepository(ILogger<LoggedCommentRepository> logger, ICommentRepository commentRepository,AppDbContext db):base(db)
+    public LoggedCommentRepository(ILogger<LoggedCommentRepository> logger,AppDbContext db):base(db)
     {
         _logger = logger;
     }

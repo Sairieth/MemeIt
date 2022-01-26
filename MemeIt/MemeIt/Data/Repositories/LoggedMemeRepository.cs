@@ -7,7 +7,7 @@ public class LoggedMemeRepository : MemeRepository
 {
     private readonly ILogger<LoggedMemeRepository> _logger;
 
-    public LoggedMemeRepository(ILogger<LoggedMemeRepository> logger, IMemeRepository memeRepository, AppDbContext db) :
+    public LoggedMemeRepository(ILogger<LoggedMemeRepository> logger, AppDbContext db) :
         base(db)
     {
         _logger = logger;
