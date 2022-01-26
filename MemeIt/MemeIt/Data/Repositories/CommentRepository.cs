@@ -15,12 +15,12 @@ public class CommentRepository:ICommentRepository
 
     public virtual async Task<List<Comment>?> GetUsersCommentsAsync(long userId)
     {
-        return await _db.Comments.Where(c => c.User.Id.Equals(userId)).ToListAsync();
+        return await _db.Comments.Where(c => c.User.Id.Equals(userId) && c.DeletedOn != DateTime.MinValue).ToListAsync();
     }
 
     public virtual async Task<List<Comment>?> GetMemesCommentsAsync(long memeId)
     {
-        return await _db.Comments.Where(c => c.Meme.Id.Equals(memeId)).ToListAsync();
+        return await _db.Comments.Where(c => c.Meme.Id.Equals(memeId) && c.DeletedOn != DateTime.MinValue).ToListAsync();
     }
 
     public virtual async Task AddCommentAsync(Comment comment)
@@ -34,8 +34,10 @@ public class CommentRepository:ICommentRepository
         var comment = await _db.Comments.SingleAsync(u => u.Id.Equals(commentId));
 
         comment.Message = newMessage;
+        comment.LastModified = DateTime.Now;
 
         _db.Entry(comment).Property("Message").IsModified = true;
+        _db.Entry(comment).Property("LastModified").IsModified = true;
 
         await _db.SaveChangesAsync();
     }
@@ -44,7 +46,8 @@ public class CommentRepository:ICommentRepository
     {
         var comment = await _db.Comments.SingleAsync(u => u.Id.Equals(commentId));
 
-        _db.Remove(comment);
+        comment.DeletedOn = DateTime.Now;
+        _db.Entry(comment).Property("DeletedOn").IsModified = true;
 
         await _db.SaveChangesAsync();
     }

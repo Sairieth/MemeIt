@@ -18,7 +18,7 @@ public class UserRepository : IUserRepository
 
     public virtual async Task<User?> GetUserDetailsAsync(long userId)
     {
-        return await _db.Users.SingleOrDefaultAsync(u => u.Id.Equals(userId));
+        return await _db.Users.SingleOrDefaultAsync(u => u.Id.Equals(userId) && u.DeletedOn != DateTime.MinValue);
     }
 
     public virtual async Task AddUserAsync(User userData)
@@ -30,7 +30,10 @@ public class UserRepository : IUserRepository
     public virtual async Task RemoveUserAsync(long userId)
     {
         var user = await _db.Users.SingleAsync(u => u.Id.Equals(userId));
-        _db.Users.Remove(user);
+        user.DeletedOn = DateTime.Now;
+
+        _db.Entry(user).Property("DeletedOn").IsModified = true;
+
         await _db.SaveChangesAsync();
     }
 
@@ -58,9 +61,12 @@ public class UserRepository : IUserRepository
     public virtual async Task EditPasswordAsync(long userId, string newPassword)
     {
         var user = await _db.Users.SingleAsync(u => u.Id.Equals(userId));
+        user.LastModified = DateTime.Now;
+
 
         user.HashedPassword = Crypto.HashPassword(newPassword);
 
+        _db.Entry(user).Property("LastModified").IsModified = true;
         _db.Entry(user).Property("HashedPassword").IsModified = true;
 
         await _db.SaveChangesAsync();
@@ -71,7 +77,9 @@ public class UserRepository : IUserRepository
         var user = await _db.Users.SingleAsync(u => u.Id.Equals(userId));
 
         user.Email = email;
+        user.LastModified = DateTime.Now;
 
+        _db.Entry(user).Property("LastModified").IsModified = true;
         _db.Entry(user).Property("Email").IsModified = true;
 
         await _db.SaveChangesAsync();
