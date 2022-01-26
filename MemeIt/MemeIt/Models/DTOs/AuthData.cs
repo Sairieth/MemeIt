@@ -3,7 +3,7 @@
 public class AuthData
 {
     public string Token { get; set; } = null!;
-    public long TokenExpirationTime { get; set; }
-    public int Id { get; set; }
+    public DateTime TokenExpirationTime { get; set; }
+    public long Id { get; set; }
     public string UserRole { get; set; } = null!;
 }
