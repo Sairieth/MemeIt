@@ -4,7 +4,7 @@ namespace MemeIt.Core;
 
 public interface IUserRepository
 {
-    Task<User?> GetUserDetailsAsync(long userId);
+    Task<User?> GetUserAsync(long userId);
     Task AddUserAsync(User user);
     Task RemoveUserAsync(long userId);
     Task<bool> IsUsernameUniqueAsync(string username);

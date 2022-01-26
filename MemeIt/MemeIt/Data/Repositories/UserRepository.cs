@@ -16,7 +16,7 @@ public class UserRepository : IUserRepository
         _db = db;
     }
 
-    public virtual async Task<User?> GetUserDetailsAsync(long userId)
+    public virtual async Task<User?> GetUserAsync(long userId)
     {
         return await _db.Users.SingleOrDefaultAsync(u => u.Id.Equals(userId) && u.DeletedOn != DateTime.MinValue);
     }

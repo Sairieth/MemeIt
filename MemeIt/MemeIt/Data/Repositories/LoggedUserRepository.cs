@@ -14,9 +14,9 @@ public class LoggedUserRepository : UserRepository
     }
 
 
-    public override async Task<User?> GetUserDetailsAsync(long userId)
+    public override async Task<User?> GetUserAsync(long userId)
     {
-        var user = await base.GetUserDetailsAsync(userId);
+        var user = await base.GetUserAsync(userId);
 
         _logger.LogInformation(
             user != null
