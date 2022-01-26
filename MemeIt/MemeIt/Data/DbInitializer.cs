@@ -39,7 +39,7 @@ public static class DbInitializer
             HashedPassword = service.HashPassword("Bob"),
             DateOfBirth = DateTime.Parse("2.6.1945"),
             Email = "i@mbobmarley.com",
-            Role = roles.First(),
+            Role = roles.First().Title!,
             CreatedOn = DateTime.Now.ToUniversalTime(),
             LastModified = DateTime.Now.ToUniversalTime(),
             DeletedOn = DateTime.MinValue
