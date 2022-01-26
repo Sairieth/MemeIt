@@ -13,8 +13,8 @@ public class RoleRepository:IRoleRepository
         _db = db;
     }
 
-    public async Task<List<Role>> GetRolesAsync()
+    public async Task<Role?> GetRoleByIdAsync(long roleId)
     {
-        return await _db.Roles.ToListAsync();
+        return await _db.Roles.SingleOrDefaultAsync(r=>r.Id==roleId && r.DeletedOn.Equals(DateTime.MinValue));
     }
 }

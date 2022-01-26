@@ -18,12 +18,17 @@ public class UserRepository : IUserRepository
 
     public virtual async Task<User?> GetUserAsync(long userId)
     {
-        return await _db.Users.SingleOrDefaultAsync(u => u.Id.Equals(userId) && u.DeletedOn != DateTime.MinValue);
+        return await _db.Users
+            .Include("Role")
+            .SingleOrDefaultAsync(u => u.Id.Equals(userId) && u.DeletedOn.Equals(DateTime.MinValue));
     }
 
     public virtual async Task<User?> GetUserByUsernameAsync(string username)
     {
-        return await _db.Users.SingleOrDefaultAsync(u => u.Username.Equals(username) && u.DeletedOn != DateTime.MinValue);
+        return await _db.Users
+            .Include("Role")
+            .SingleOrDefaultAsync(u =>
+            u.Username.Equals(username) && u.DeletedOn.Equals(DateTime.MinValue));
     }
 
     public virtual async Task AddUserAsync(User userData)
@@ -34,7 +39,11 @@ public class UserRepository : IUserRepository
 
     public virtual async Task RemoveUserAsync(long userId)
     {
-        var user = await _db.Users.SingleAsync(u => u.Id.Equals(userId));
+        var user = await _db.Users.SingleOrDefaultAsync(u =>
+            u.Id.Equals(userId) && u.DeletedOn.Equals(DateTime.MinValue));
+
+        if (user == null) return;
+
         user.DeletedOn = DateTime.Now;
 
         _db.Entry(user).Property("DeletedOn").IsModified = true;
@@ -65,7 +74,11 @@ public class UserRepository : IUserRepository
 
     public virtual async Task EditPasswordAsync(long userId, string newPassword)
     {
-        var user = await _db.Users.SingleAsync(u => u.Id.Equals(userId));
+        var user = await _db.Users.SingleOrDefaultAsync(u =>
+            u.Id.Equals(userId) && u.DeletedOn.Equals(DateTime.MinValue));
+
+        if (user == null) return;
+
         user.LastModified = DateTime.Now;
 
 
@@ -79,7 +92,10 @@ public class UserRepository : IUserRepository
 
     public virtual async Task EditEmailAsync(long userId, string email)
     {
-        var user = await _db.Users.SingleAsync(u => u.Id.Equals(userId));
+        var user = await _db.Users.SingleOrDefaultAsync(u =>
+            u.Id.Equals(userId) && u.DeletedOn.Equals(DateTime.MinValue));
+
+        if (user == null) return;
 
         user.Email = email;
         user.LastModified = DateTime.Now;
