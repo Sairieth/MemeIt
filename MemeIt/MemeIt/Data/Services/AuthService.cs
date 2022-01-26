@@ -43,7 +43,7 @@ public class AuthService : IAuthService
         return new AuthData
         {
             Token = token,
-            TokenExpirationTime = ((DateTimeOffset) expirationTime).ToUnixTimeMilliseconds(),
+            TokenExpirationTime = expirationTime.ToLocalTime(),
             Id = id,
             UserRole = role
         };
