@@ -21,6 +21,11 @@ public class UserRepository : IUserRepository
         return await _db.Users.SingleOrDefaultAsync(u => u.Id.Equals(userId) && u.DeletedOn != DateTime.MinValue);
     }
 
+    public virtual async Task<User?> GetUserByUsernameAsync(string username)
+    {
+        return await _db.Users.SingleOrDefaultAsync(u => u.Username.Equals(username) && u.DeletedOn != DateTime.MinValue);
+    }
+
     public virtual async Task AddUserAsync(User userData)
     {
         await _db.Users.AddAsync(userData);

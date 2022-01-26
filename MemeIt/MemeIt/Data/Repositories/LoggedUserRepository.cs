@@ -25,6 +25,17 @@ public class LoggedUserRepository : UserRepository
 
         return user;
     }
+    public override async Task<User?> GetUserByUsernameAsync(string username)
+    {
+        var user = await base.GetUserByUsernameAsync(username);
+
+        _logger.LogInformation(
+            user != null
+                ? "Requested user with username {username} was found: {@user}"
+                : "Requested user with username {username} was not found: {@user}", username, user);
+
+        return user;
+    }
 
     public override async Task AddUserAsync(User user)
     {
