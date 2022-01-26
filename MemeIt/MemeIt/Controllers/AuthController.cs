@@ -54,15 +54,15 @@ namespace MemeIt.Controllers
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var emailUniq = await _userRepository.IsEmailUniqueAsync(registerData.Email);
-            if (!emailUniq) return BadRequest(new { error = "user with this email already exists" });
+            if (!emailUniq) return BadRequest(new {error = "user with this email already exists"});
 
             var usernameUniq = await _userRepository.IsUsernameUniqueAsync(registerData.UserName);
-            if (!usernameUniq) return BadRequest(new { error = "user with this email already exists" });
+            if (!usernameUniq) return BadRequest(new {error = "user with this email already exists"});
 
             var user = registerData.ToUser();
             await _userRepository.AddUserAsync(user);
             var authData = _authService.GetAuthData(user.Id, user.Role);
-            return Created("/api/auth/register",authData);
+            return Created("/api/auth/register", authData);
         }
     }
 }
