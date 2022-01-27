@@ -1,4 +1,5 @@
-﻿using CryptoHelper;
+﻿using System.Runtime.CompilerServices;
+using CryptoHelper;
 using MemeIt.Models.DTOs;
 using MemeIt.Models.Entities;
 
@@ -18,6 +19,17 @@ public static class DtoExtensions
             CreatedOn = DateTime.Now.ToLocalTime(),
             LastModified = DateTime.Now.ToLocalTime(),
             DeletedOn = DateTime.MinValue
+        };
+    }
+
+    public static Meme ToMeme(this PostDataDto post, string fileUri)
+    {
+        return new Meme()
+        {
+            Title = post.Title,
+            Tag = post.Tag,
+            UserId = post.UserId,
+            AzureUrl = fileUri
         };
     }
 }
