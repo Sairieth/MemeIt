@@ -1,4 +1,5 @@
 using System.Text;
+using Azure.Storage.Blobs;
 using MemeIt.Core;
 using MemeIt.Data;
 using MemeIt.Data.Repositories;
@@ -57,6 +58,11 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+builder.Services.AddSingleton(s =>
+    new BlobServiceClient(configuration.GetValue<string>("AzureBlobStorageConnectionStrings")));
+
+builder.Services.AddSingleton<IBlobService, BlobService>();
 
 builder.Services.AddDbContext<AppDbContext>();
 
@@ -118,7 +124,6 @@ try
 }
 catch (Exception ex)
 {
-
     Log.Fatal(ex, "The Application Threw A Nope Card");
 }
 finally
