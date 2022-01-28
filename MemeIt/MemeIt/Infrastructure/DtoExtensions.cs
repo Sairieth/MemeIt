@@ -7,7 +7,7 @@ namespace MemeIt.Infrastructure;
 
 public static class DtoExtensions
 {
-    public static User ToUser(this RegisterUserDto regData)
+    public static User RegisterUserDtoToUser(this RegisterUserDto regData)
     {
         return new User()
         {
@@ -22,14 +22,25 @@ public static class DtoExtensions
         };
     }
 
-    public static Meme ToMeme(this PostDataDto post, string fileUri)
+    public static Meme PostDataDtoToMeme(this PostDataDto post, string fileUri,User user)
     {
         return new Meme()
         {
             Title = post.Title,
             Tag = post.Tag,
-            UserId = post.UserId,
+            User = user,
             AzureUrl = fileUri
+        };
+    }
+
+    public static MemeDto MemeToMemeDto(this Meme meme)
+    {
+        return new MemeDto()
+        {
+            Title = meme.Title,
+            Tag = meme.Tag,
+            Url = meme.AzureUrl,
+            UserName = meme.User.Username
         };
     }
 }
