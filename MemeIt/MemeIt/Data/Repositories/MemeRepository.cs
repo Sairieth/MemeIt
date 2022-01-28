@@ -15,13 +15,19 @@ public class MemeRepository : IMemeRepository
 
     public virtual async Task<List<Meme>?> GetUsersMemesAsync(long userId)
     {
-        return await _db.Memes.Where(m => m.UserId.Equals(userId) && m.DeletedOn.Equals(DateTime.MinValue))
+        return await _db.Memes.Where(m => m.User.Id.Equals(userId) && m.DeletedOn.Equals(DateTime.MinValue))
             .ToListAsync();
     }
 
     public virtual async Task<List<Meme>?> GetMemesByTagAsync(string tag)
     {
-        return await _db.Memes.Where(m => m.Tag.Equals(tag) && m.DeletedOn.Equals(DateTime.MinValue)).ToListAsync();
+        return await _db.Memes.Include(x => x.User)
+            .Where(m => m.Tag.Equals(tag) && m.DeletedOn.Equals(DateTime.MinValue)).ToListAsync();
+    }
+
+    public async Task<Meme?> GetMemeByIdAsync(long memeId)
+    {
+        return await _db.Memes.SingleOrDefaultAsync(x => x.Id == memeId);
     }
 
     public virtual async Task AddMemeAsync(Meme meme)
