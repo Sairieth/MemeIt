@@ -1,5 +1,6 @@
 ﻿using Azure.Storage.Blobs;
 using MemeIt.Core;
+using MemeIt.Data.Services;
 using MemeIt.Infrastructure;
 using MemeIt.Models.DTOs;
 using MemeIt.Models.Entities;
@@ -15,13 +16,14 @@ namespace MemeIt.Controllers
         private readonly IBlobService _blobService;
         private readonly IMemeRepository _memeRepository;
         private readonly IUserRepository _userRepository;
-        private const string ImgContainerName = "images";
+        private readonly IAuthService _authService;
 
-        public MemeController(IBlobService blobService, IMemeRepository memeRepository, IUserRepository userRepository)
+        public MemeController(IBlobService blobService, IMemeRepository memeRepository, IUserRepository userRepository, IAuthService authService, IConfigurationRoot configurationRoot)
         {
             _blobService = blobService;
             _memeRepository = memeRepository;
             _userRepository = userRepository;
+            _authService = authService;
         }
 
         [HttpPost]
@@ -33,12 +35,12 @@ namespace MemeIt.Controllers
 
             var fileName = Guid.NewGuid().ToString() + Path.GetExtension(post.File.FileName);
 
-            var result = await _blobService.UploadBlobAsync(fileName, post.File, ImgContainerName);
+            var result = await _blobService.UploadBlobAsync(fileName, post.File, ConfigurationService.Configuration.AzureBlobStorageContainerName);
             var user = await _userRepository.GetUserAsync(post.UserId);
 
             if (result && user != null)
             {
-                var imgUri = await _blobService.GetBlobUriAsync(fileName, ImgContainerName);
+                var imgUri = await _blobService.GetBlobUriAsync(fileName, ConfigurationService.Configuration.AzureBlobStorageContainerName);
                 await _memeRepository.AddMemeAsync(post.PostDataDtoToMeme(imgUri, user));
                 return Ok();
             }

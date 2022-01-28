@@ -59,11 +59,6 @@ builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-builder.Services.AddSingleton(s =>
-    new BlobServiceClient(configuration.GetValue<string>("AzureBlobStorageConnectionStrings")));
-
-builder.Services.AddSingleton<IBlobService, BlobService>();
-
 builder.Services.AddDbContext<AppDbContext>();
 
 builder.Services
@@ -73,7 +68,6 @@ builder.Services
         options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
         options.SerializerSettings.Converters.Add(new StringEnumConverter());
     });
-
 
 builder.Services.AddSingleton<IAuthService>(
     new AuthService(

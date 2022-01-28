@@ -9,9 +9,9 @@ public class BlobService : IBlobService
 {
     private readonly BlobServiceClient _blobServiceClient;
 
-    public BlobService(BlobServiceClient blobServiceClient)
+    public BlobService()
     {
-        _blobServiceClient = blobServiceClient;
+        _blobServiceClient = new BlobServiceClient(ConfigurationService.Configuration.AzureBlobStorageConnectionStrings);
     }
 
     public async Task<string> GetBlobUriAsync(string fileName, string containerName)
