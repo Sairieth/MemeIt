@@ -22,18 +22,26 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<User>().ToTable("User");
         modelBuilder.Entity<Comment>(prop =>
         {
-            prop.HasOne(n => n.Meme)
-                .WithMany(x => x.Comments)
-                .HasForeignKey(f=>f.Id)
+            prop.HasOne(c => c.Meme)
+                .WithMany(m => m.Comments)
+                .HasForeignKey(c => c.Id)
                 .OnDelete(deleteBehavior: DeleteBehavior.NoAction);
-            prop.HasOne(n => n.User)
-                .WithMany(x => x.Comments)
-                .HasForeignKey(f => f.Id)
+            prop.HasOne(c => c.User)
+                .WithMany(m => m.Comments)
+                .HasForeignKey(c => c.Id)
                 .OnDelete(deleteBehavior: DeleteBehavior.NoAction);
             prop.ToTable("Comment");
         });
 
-        modelBuilder.Entity<Meme>().ToTable("Meme");
+        modelBuilder.Entity<Meme>(prop =>
+        {
+            prop.HasOne(m => m.User)
+                .WithMany(u => u.Memes)
+                .HasForeignKey(m => m.Id)
+                .OnDelete(deleteBehavior: DeleteBehavior.NoAction);
+            prop.ToTable("Meme");
+        });
+
         modelBuilder.Entity<Role>().ToTable("Role");
         modelBuilder.Entity<Tag>().ToTable("Tag");
     }
