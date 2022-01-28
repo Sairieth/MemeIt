@@ -24,7 +24,7 @@ namespace MemeIt.Controllers
 
         [HttpPost]
         [Route("login")]
-        public async Task<ActionResult<AuthData>> Login(LoginData credentials)
+        public async Task<ActionResult<AuthData>> Login([FromBody]LoginData credentials)
         {
             if (!ModelState.IsValid) return BadRequest("missing passowrd/username");
 
@@ -41,7 +41,7 @@ namespace MemeIt.Controllers
 
         [HttpPost]
         [Route("register")]
-        public async Task<ActionResult<AuthData>> Register(RegisterUserDto registerData)
+        public async Task<ActionResult<AuthData>> Register([FromBody]RegisterUserDto registerData)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
@@ -51,7 +51,7 @@ namespace MemeIt.Controllers
             var usernameUniq = await _userRepository.IsUsernameUniqueAsync(registerData.UserName);
             if (!usernameUniq) return BadRequest(new {error = "user with this email already exists"});
 
-            var user = registerData.ToUser();
+            var user = registerData.RegisterUserDtoToUser();
 
             await _userRepository.AddUserAsync(user);
 
