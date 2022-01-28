@@ -58,4 +58,14 @@ public class AuthService : IAuthService
     {
         return Crypto.VerifyHashedPassword(hashedPassword, actualPassword);
     }
+
+    public bool IsValidId(string jwtToken, long userId)
+    {
+        var jwt = jwtToken;
+        var handler = new JwtSecurityTokenHandler();
+        var token = handler.ReadJwtToken(jwtToken);
+        var value = token.Claims.SingleOrDefault(x => x.Type.Equals(ClaimTypes.Name))?.Value;
+
+        return value != null && long.Parse(value) == userId;
+    }
 }
