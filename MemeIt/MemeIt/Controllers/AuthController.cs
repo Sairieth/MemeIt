@@ -34,7 +34,7 @@ namespace MemeIt.Controllers
             var passwordValid = _authService.VerifyPassword(credentials.Password, user.HashedPassword);
             if (!passwordValid) return BadRequest(new {error = "invalid username/password"});
 
-            var authData = _authService.GetAuthData(user.Id, user.Role);
+            var authData = _authService.GetAuthData(user.Id, user.Role,user.Username);
 
             return Accepted(authData);
         }
@@ -55,7 +55,7 @@ namespace MemeIt.Controllers
 
             await _userRepository.AddUserAsync(user);
 
-            var authData = _authService.GetAuthData(user.Id, user.Role);
+            var authData = _authService.GetAuthData(user.Id, user.Role,user.Username);
 
             return Created("/api/auth/register", authData);
         }

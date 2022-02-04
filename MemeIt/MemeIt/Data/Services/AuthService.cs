@@ -19,7 +19,7 @@ public class AuthService : IAuthService
         this._jwtLifespan = jwtLifespan;
     }
 
-    public AuthData GetAuthData(long id, string role)
+    public AuthData GetAuthData(long id, string role, string userName)
     {
         var expirationTime = DateTime.UtcNow.AddMinutes(_jwtLifespan);
 
@@ -45,6 +45,7 @@ public class AuthService : IAuthService
             Token = token,
             TokenExpirationTime = expirationTime.ToLocalTime(),
             Id = id,
+            UserName = userName,
             UserRole = role
         };
     }
