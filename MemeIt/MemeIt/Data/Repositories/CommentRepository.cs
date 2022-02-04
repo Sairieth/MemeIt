@@ -13,6 +13,11 @@ public class CommentRepository : ICommentRepository
         _db = db;
     }
 
+    public virtual async Task<Comment?> GetCommentAsync(long commentId)
+    {
+        return await _db.Comments.SingleOrDefaultAsync(x => x.Id.Equals(commentId) && x.DeletedOn.Equals(DateTime.MinValue));
+    }
+
     public virtual async Task<List<Comment>?> GetUsersCommentsAsync(long userId)
     {
         return await _db.Comments.Where(c => c.User.Id.Equals(userId) && c.DeletedOn.Equals(DateTime.MinValue))
@@ -25,7 +30,7 @@ public class CommentRepository : ICommentRepository
             .ToListAsync();
     }
 
-    public virtual async Task AddCommentAsync(Comment comment)
+    public virtual async Task AddCommentAsync(Comment? comment)
     {
         await _db.Comments.AddAsync(comment);
         await _db.SaveChangesAsync();
