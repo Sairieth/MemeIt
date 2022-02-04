@@ -49,6 +49,19 @@ namespace MemeIt.Controllers
         }
 
         [HttpGet]
+        [Route("all")]
+        public async Task<ActionResult<List<MemeDto>>> GetAllMemes()
+        {
+            var memes = await _memeRepository.GetAll();
+
+            var memeDtosByTag = memes?.Select(x => x.MemeToMemeDto()).ToList();
+
+            if (memeDtosByTag == null) return BadRequest("No memes by tag");
+
+            return Ok(memeDtosByTag);
+        }
+
+        [HttpGet]
         [Route("{tag}")]
         public async Task<ActionResult<List<MemeDto>>> GetMemesByTag([FromRoute] string tag)
         {
