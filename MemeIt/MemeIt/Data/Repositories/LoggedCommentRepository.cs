@@ -49,7 +49,7 @@ public class LoggedCommentRepository:CommentRepository
         return memesComments;
     }
 
-    public override async Task AddCommentAsync(Comment? comment)
+    public override async Task AddCommentAsync(Comment comment)
     {
         _logger.LogInformation("Added {@comment} to meme with ID No.{memeId}", comment,comment.Meme.Id);
         await base.AddCommentAsync(comment);

@@ -30,7 +30,7 @@ public class CommentRepository : ICommentRepository
             .ToListAsync();
     }
 
-    public virtual async Task AddCommentAsync(Comment? comment)
+    public virtual async Task AddCommentAsync(Comment comment)
     {
         await _db.Comments.AddAsync(comment);
         await _db.SaveChangesAsync();
