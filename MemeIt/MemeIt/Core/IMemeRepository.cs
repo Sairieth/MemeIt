@@ -4,6 +4,8 @@ namespace MemeIt.Core;
 
 public interface IMemeRepository
 {
+
+    Task<List<Meme>?> GetAllAsync();
     Task<List<Meme>?> GetUsersMemesAsync(long userId);
     Task<List<Meme>?> GetMemesByTagAsync(string tag);
 

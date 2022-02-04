@@ -13,6 +13,12 @@ public class MemeRepository : IMemeRepository
         _db = db;
     }
 
+    public virtual async Task<List<Meme>?> GetAllAsync()
+    {
+        return await _db.Memes.Where(m => m.DeletedOn.Equals(DateTime.MinValue))
+            .ToListAsync();
+    }
+
     public virtual async Task<List<Meme>?> GetUsersMemesAsync(long userId)
     {
         return await _db.Memes.Where(m => m.User.Id.Equals(userId) && m.DeletedOn.Equals(DateTime.MinValue))
