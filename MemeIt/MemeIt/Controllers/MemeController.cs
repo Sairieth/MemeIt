@@ -16,14 +16,12 @@ namespace MemeIt.Controllers
         private readonly IBlobService _blobService;
         private readonly IMemeRepository _memeRepository;
         private readonly IUserRepository _userRepository;
-        private readonly IAuthService _authService;
 
-        public MemeController(IBlobService blobService, IMemeRepository memeRepository, IUserRepository userRepository, IAuthService authService, IConfigurationRoot configurationRoot)
+        public MemeController(IBlobService blobService, IMemeRepository memeRepository, IUserRepository userRepository)
         {
             _blobService = blobService;
             _memeRepository = memeRepository;
             _userRepository = userRepository;
-            _authService = authService;
         }
 
         [HttpPost]
@@ -52,7 +50,7 @@ namespace MemeIt.Controllers
         [Route("all")]
         public async Task<ActionResult<List<MemeDto>>> GetAllMemes()
         {
-            var memes = await _memeRepository.GetAll();
+            var memes = await _memeRepository.GetAllAsync();
 
             var memeDtosByTag = memes?.Select(x => x.MemeToMemeDto()).ToList();
 
