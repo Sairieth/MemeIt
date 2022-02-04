@@ -13,6 +13,18 @@ public class LoggedCommentRepository:CommentRepository
         _logger = logger;
     }
 
+    public override async Task<Comment?> GetCommentAsync(long commentId)
+    {
+        var comment = await base.GetCommentAsync(commentId);
+
+        _logger.LogInformation(
+            comment != null
+                ? "Requested comment was found"
+                : "Requested comment was not found");
+
+        return comment;
+    }
+
     public override async Task<List<Comment>?> GetUsersCommentsAsync(long userId)
     {
         var usersComments = await base.GetUsersCommentsAsync(userId);
@@ -37,7 +49,7 @@ public class LoggedCommentRepository:CommentRepository
         return memesComments;
     }
 
-    public override async Task AddCommentAsync(Comment comment)
+    public override async Task AddCommentAsync(Comment? comment)
     {
         _logger.LogInformation("Added {@comment} to meme with ID No.{memeId}", comment,comment.Meme.Id);
         await base.AddCommentAsync(comment);

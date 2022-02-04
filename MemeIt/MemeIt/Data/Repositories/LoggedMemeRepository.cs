@@ -13,6 +13,18 @@ public class LoggedMemeRepository : MemeRepository
         _logger = logger;
     }
 
+    public override async Task<List<Meme>?> GetAllAsync()
+    {
+        var memes = await base.GetAllAsync();
+
+        _logger.LogInformation(
+            memes != null
+                ? "Requested meme(s) where found"
+                : "Requested meme(s) where not found");
+
+        return memes;
+    }
+
     public override async Task<List<Meme>?> GetUsersMemesAsync(long userId)
     {
         var usersMemes = await base.GetUsersMemesAsync(userId);
