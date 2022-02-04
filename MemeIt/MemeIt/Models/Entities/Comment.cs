@@ -8,6 +8,6 @@ public class Comment : EntityWithModificationDate
 {
     public string Message { get; set; } = null!;
     //public string? Flag { get; set; } = default;
-    public Meme Meme { get; set; } = null!;
-    public User User { get; set; } = null!;
+    public virtual Meme Meme { get; set; } = null!;
+    public virtual User User { get; set; } = null!;
 }
