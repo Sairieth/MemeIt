@@ -43,4 +43,27 @@ public static class DtoExtensions
             UserName = meme.User.Username
         };
     }
+
+    public static MemeCommentDto ToMemeCommentDto(this Comment comment)
+    {
+        return new MemeCommentDto()
+        {
+            Message = comment.Message,
+            UserName = comment.User.Username,
+            UserId = comment.User.Id
+        };
+    }
+
+    public static Comment ToComment(this CommentOnMemeDto commentOnMemeDto,Meme meme,User user)
+    {
+        return new Comment()
+        {
+            Message = commentOnMemeDto.Message,
+            Meme = meme,
+            User = user,
+            CreatedOn = DateTime.Now,
+            LastModified = DateTime.Now,
+            DeletedOn = DateTime.MinValue
+        };
+    }
 }
