@@ -19,14 +19,12 @@ public class UserRepository : IUserRepository
     public virtual async Task<User?> GetUserAsync(long userId)
     {
         return await _db.Users
-            .Include("Role")
             .SingleOrDefaultAsync(u => u.Id.Equals(userId) && u.DeletedOn.Equals(DateTime.MinValue));
     }
 
     public virtual async Task<User?> GetUserByUsernameAsync(string username)
     {
         return await _db.Users
-            .Include("Role")
             .SingleOrDefaultAsync(u =>
             u.Username.Equals(username) && u.DeletedOn.Equals(DateTime.MinValue));
     }

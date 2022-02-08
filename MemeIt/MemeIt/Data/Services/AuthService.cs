@@ -27,7 +27,8 @@ public class AuthService : IAuthService
         {
             Subject = new ClaimsIdentity(new Claim[]
             {
-                new Claim(ClaimTypes.Name, id.ToString()),
+                new Claim(ClaimTypes.PrimarySid, id.ToString()),
+                new Claim(ClaimTypes.Name, userName),
                 new Claim(ClaimTypes.Role, role)
             }),
             Expires = expirationTime,
@@ -44,9 +45,7 @@ public class AuthService : IAuthService
         {
             Token = token,
             TokenExpirationTime = expirationTime.ToLocalTime(),
-            Id = id,
-            UserName = userName,
-            UserRole = role
+            
         };
     }
 

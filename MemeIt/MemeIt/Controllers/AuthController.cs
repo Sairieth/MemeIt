@@ -24,7 +24,7 @@ namespace MemeIt.Controllers
 
         [HttpPost]
         [Route("login")]
-        public async Task<ActionResult<AuthData>> Login([FromBody]LoginData credentials)
+        public async Task<ActionResult<AuthData>> Login([FromBody] LoginData credentials)
         {
             if (!ModelState.IsValid) return BadRequest("missing passowrd/username");
 
@@ -34,14 +34,17 @@ namespace MemeIt.Controllers
             var passwordValid = _authService.VerifyPassword(credentials.Password, user.HashedPassword);
             if (!passwordValid) return BadRequest(new {error = "invalid username/password"});
 
-            var authData = _authService.GetAuthData(user.Id, user.Role,user.Username);
+            var authData = _authService.GetAuthData(user.Id, user.Role, user.Username);
 
-            return Accepted(authData);
+            Response.Cookies.Append("JWT", authData.Token,
+                new CookieOptions() {Expires = authData.TokenExpirationTime});
+
+            return Accepted(new {authData.Token});
         }
 
         [HttpPost]
         [Route("register")]
-        public async Task<ActionResult<AuthData>> Register([FromBody]RegisterUserDto registerData)
+        public async Task<ActionResult<AuthData>> Register([FromBody] RegisterUserDto registerData)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
@@ -55,9 +58,12 @@ namespace MemeIt.Controllers
 
             await _userRepository.AddUserAsync(user);
 
-            var authData = _authService.GetAuthData(user.Id, user.Role,user.Username);
+            var authData = _authService.GetAuthData(user.Id, user.Role, user.Username);
 
-            return Created("/api/auth/register", authData);
+            Response.Cookies.Append("JWT", authData.Token,
+                new CookieOptions() { Expires = authData.TokenExpirationTime });
+
+            return Created("/api/auth/register", authData.Token);
         }
     }
 }
