@@ -24,41 +24,6 @@ namespace MemeIt.Controllers
             _userRepository = userRepository;
         }
 
-        [HttpPost]
-        [Route("post")]
-        public async Task<ActionResult> PostMeme([FromBody] PostDataDto post)
-        {
-            if (!ModelState.IsValid) return BadRequest();
-            if (post.File == null || post.File.Length > 1) return BadRequest();
-
-            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(post.File.FileName);
-
-            var result = await _blobService.UploadBlobAsync(fileName, post.File, ConfigurationService.Configuration.AzureBlobStorageContainerName);
-            var user = await _userRepository.GetUserAsync(post.UserId);
-
-            if (result && user != null)
-            {
-                var imgUri = await _blobService.GetBlobUriAsync(fileName, ConfigurationService.Configuration.AzureBlobStorageContainerName);
-                await _memeRepository.AddMemeAsync(post.PostDataDtoToMeme(imgUri, user));
-                return Ok();
-            }
-
-            return BadRequest();
-        }
-
-        [HttpGet]
-        [Route("all")]
-        public async Task<ActionResult<List<MemeDto>>> GetAllMemes()
-        {
-            var memes = await _memeRepository.GetAllAsync();
-
-            var memeDtosByTag = memes?.Select(x => x.MemeToMemeDto()).ToList();
-
-            if (memeDtosByTag == null) return BadRequest("No memes by tag");
-
-            return Ok(memeDtosByTag);
-        }
-
         [HttpGet]
         [Route("{tag}")]
         public async Task<ActionResult<List<MemeDto>>> GetMemesByTag([FromRoute] string tag)
@@ -83,6 +48,41 @@ namespace MemeIt.Controllers
             if (memeDtosByTag == null) return BadRequest("No memes by user");
 
             return Ok(memeDtosByTag);
+        }
+
+        [HttpGet]
+        [Route("all")]
+        public async Task<ActionResult<List<MemeDto>>> GetAllMemes()
+        {
+            var memes = await _memeRepository.GetAllAsync();
+
+            var memeDtosByTag = memes?.Select(x => x.MemeToMemeDto()).ToList();
+
+            if (memeDtosByTag == null) return BadRequest("No memes by tag");
+
+            return Ok(memeDtosByTag);
+        }
+
+        [HttpPost]
+        [Route("post")]
+        public async Task<ActionResult> PostMeme([FromBody] PostDataDto post)
+        {
+            if (!ModelState.IsValid) return BadRequest();
+            if (post.File == null || post.File.Length > 1) return BadRequest();
+
+            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(post.File.FileName);
+
+            var result = await _blobService.UploadBlobAsync(fileName, post.File, ConfigurationService.Configuration.AzureBlobStorageContainerName);
+            var user = await _userRepository.GetUserAsync(post.UserId);
+
+            if (result && user != null)
+            {
+                var imgUri = await _blobService.GetBlobUriAsync(fileName, ConfigurationService.Configuration.AzureBlobStorageContainerName);
+                await _memeRepository.AddMemeAsync(post.PostDataDtoToMeme(imgUri, user));
+                return Ok();
+            }
+
+            return BadRequest();
         }
 
         [HttpPut]
