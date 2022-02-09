@@ -4,5 +4,5 @@ namespace MemeIt.Core;
 
 public interface ITagRepository
 {
-    Task<List<Tag>> GetAllTagsAsync();
+    Task<List<Tag>?> GetAllTagsAsync();
 }

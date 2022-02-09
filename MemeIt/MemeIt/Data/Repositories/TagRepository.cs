@@ -13,7 +13,7 @@ public class TagRepository:ITagRepository
         _db = db;
     }
 
-    public virtual async Task<List<Tag>> GetAllTagsAsync()
+    public virtual async Task<List<Tag>?> GetAllTagsAsync()
     {
         return await _db.Tags.ToListAsync();
     }
