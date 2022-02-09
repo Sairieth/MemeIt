@@ -46,7 +46,39 @@ public static class DbInitializer
         };
         context.Users.Add(user);
         context.SaveChanges();
+
+        var tags = new Tag[]
+        {
+            new Tag()
+            {
+                Title = "Programing",
+                CreatedOn = DateTime.Now.ToUniversalTime(),
+                LastModified = DateTime.Now.ToUniversalTime(),
+                DeletedOn = DateTime.MinValue
+            },
+            new Tag()
+            {
+                Title = "Funny",
+                CreatedOn = DateTime.Now.ToUniversalTime(),
+                LastModified = DateTime.Now.ToUniversalTime(),
+                DeletedOn = DateTime.MinValue
+            },
+            new Tag()
+            {
+                Title = "Wholesome",
+                CreatedOn = DateTime.Now.ToUniversalTime(),
+                LastModified = DateTime.Now.ToUniversalTime(),
+                DeletedOn = DateTime.MinValue
+            }
+        };
+        foreach (var tag in tags)
+        {
+            context.Tags.Add(tag);
+        }
+        context.SaveChanges();
     }
+
+
 
     public static void CreateDbIfNotExists(IHost host)
     {
