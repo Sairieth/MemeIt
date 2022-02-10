@@ -23,7 +23,6 @@ namespace MemeIt.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "baseUser")]
         [Route("meme/{memeId:long}/all")]
         public async Task<ActionResult> GetMemesComments([FromRoute] long memeId)
         {

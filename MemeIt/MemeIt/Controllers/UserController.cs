@@ -1,6 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using MemeIt.Core;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +21,7 @@ namespace MemeIt.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "baseUser")]
         [Route("{userId:long}/edit-email")]
         public async Task<ActionResult> EditEmail([FromRoute] long userId,[FromBody]string newEmail)
         {
@@ -32,6 +34,7 @@ namespace MemeIt.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "baseUser")]
         [Route("{userId:long}/edit-password")]
         public async Task<ActionResult> EditPassword([FromRoute] long userId,[FromBody]string newPass)
         {
@@ -44,6 +47,7 @@ namespace MemeIt.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "baseUser")]
         [Route("{userId:long}/delete")]
         public async Task<ActionResult> DeleteAccount([FromRoute] long userId)
         {

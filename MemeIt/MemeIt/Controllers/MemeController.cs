@@ -4,6 +4,7 @@ using MemeIt.Data.Services;
 using MemeIt.Infrastructure;
 using MemeIt.Models.DTOs;
 using MemeIt.Models.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,6 +39,7 @@ namespace MemeIt.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "baseUser")]
         [Route("user/{userId:long}")]
         public async Task<ActionResult<List<MemeDto>>> GetMemesByUserId([FromRoute] long userId)
         {
@@ -64,6 +66,7 @@ namespace MemeIt.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "baseUser")]
         [Route("post")]
         public async Task<ActionResult> PostMeme([FromBody] PostDataDto post)
         {
@@ -86,6 +89,7 @@ namespace MemeIt.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "baseUser")]
         [Route("update/{memeId:long}")]
         public async Task<ActionResult> EditMemeTitle([FromRoute] long memeId, [FromBody] string newTitle)
         {
@@ -99,6 +103,7 @@ namespace MemeIt.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "baseUser")]
         [Route("update/{memeId:long}")]
         public async Task<ActionResult> EditMemeTag([FromRoute] long memeId, [FromBody] string newTag)
         {
@@ -112,6 +117,7 @@ namespace MemeIt.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "baseUser")]
         [Route("remove/{memeId:long}")]
         public async Task<ActionResult> DeleteMeme([FromRoute] long memeId)
         {
