@@ -8,4 +8,6 @@ public class RegisterUserDto
     public string Password { get; set; } = null!;
     public DateTime DateOfBirth { get; set; }
     public string Email { get; set; } = null!;
+    public int Offset { get; set; }
+
 }
