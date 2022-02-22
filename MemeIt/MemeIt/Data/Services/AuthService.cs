@@ -19,9 +19,9 @@ public class AuthService : IAuthService
         this._jwtLifespan = jwtLifespan;
     }
 
-    public AuthData GetAuthData(long id, string role, string userName)
+    public AuthData GetAuthData(long id, string role, string userName, int offset)
     {
-        var expirationTime = DateTime.UtcNow.AddMinutes(_jwtLifespan);
+        var expirationTime = DateTime.UtcNow.AddMinutes(_jwtLifespan+offset);
 
         var tokenDescriptor = new SecurityTokenDescriptor
         {
@@ -44,8 +44,8 @@ public class AuthService : IAuthService
         return new AuthData
         {
             Token = token,
-            TokenExpirationTime = expirationTime.ToLocalTime(),
-            
+            TokenExpirationTime = expirationTime,
+
         };
     }
 

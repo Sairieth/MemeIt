@@ -34,10 +34,19 @@ namespace MemeIt.Controllers
             var passwordValid = _authService.VerifyPassword(credentials.Password, user.HashedPassword);
             if (!passwordValid) return BadRequest(new {error = "invalid username/password"});
 
-            var authData = _authService.GetAuthData(user.Id, user.Role, user.Username);
+            var authData = _authService.GetAuthData(user.Id, user.Role, user.Username,credentials.Offset);
 
             Response.Cookies.Append("JWT", authData.Token,
-                new CookieOptions() {Expires = authData.TokenExpirationTime});
+                new CookieOptions() {Expires = authData.TokenExpirationTime, MaxAge = authData.TokenExpirationTime.TimeOfDay, IsEssential = true});
+
+
+            //Console.WriteLine(DateTime.UtcNow);
+            //Console.WriteLine(authData.TokenExpirationTime);
+            //Console.WriteLine(authData.TokenExpirationTime.TimeOfDay);
+            //foreach (var cookiesKey in Request.Cookies.Keys)
+            //{
+            //    Console.WriteLine(cookiesKey);
+            //}
 
             return Accepted(new {authData.Token});
         }
@@ -58,12 +67,12 @@ namespace MemeIt.Controllers
 
             await _userRepository.AddUserAsync(user);
 
-            var authData = _authService.GetAuthData(user.Id, user.Role, user.Username);
+            var authData = _authService.GetAuthData(user.Id, user.Role, user.Username,registerData.Offset);
 
             Response.Cookies.Append("JWT", authData.Token,
-                new CookieOptions() { Expires = authData.TokenExpirationTime });
+                new CookieOptions() { Expires = authData.TokenExpirationTime, MaxAge = authData.TokenExpirationTime.TimeOfDay, IsEssential = true });
 
-            return Created("/api/auth/register", authData.Token);
+            return Created("/api/auth/register", new { authData.Token });
         }
     }
 }
