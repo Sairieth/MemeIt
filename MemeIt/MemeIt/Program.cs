@@ -76,6 +76,7 @@ builder.Services.AddSingleton<IAuthService>(
     )
 );
 
+builder.Services.AddScoped<IBlobService, BlobService>();
 builder.Services.AddScoped<IUserRepository, LoggedUserRepository>();
 builder.Services.AddScoped<IMemeRepository, LoggedMemeRepository>();
 builder.Services.AddScoped<ICommentRepository, LoggedCommentRepository>();
