@@ -68,7 +68,7 @@ namespace MemeIt.Controllers
         [HttpPost]
         [Authorize(Roles = "baseUser")]
         [Route("post")]
-        public async Task<ActionResult> PostMeme([FromBody] PostDataDto post)
+        public async Task<ActionResult> PostMeme([FromForm] PostDataDto post)
         {
             if (!ModelState.IsValid) return BadRequest();
             if (post.File == null || post.File.Length > 1) return BadRequest();
